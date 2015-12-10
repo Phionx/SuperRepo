@@ -164,20 +164,11 @@ public class Binary implements Comparable{
       negative integer if this<input, positive integer otherwise
       =============================================*/
     public int compareTo( Object other ) {
-	/****** YOUR IMPLEMENTATION HURRR ******/ 
     double numOther = 0; //numerator of other
     double denOther = 1; //denominator of other
-    if(other instanceof Binary){
-        Binary temp;
-        temp = (Binary)other;
-        numOther = temp.numerator;
-    } else if(other instanceof Hexadecimal){
-        Hexadecimal temp;
-        temp = (Hexadecimal)other;
-        numOther = temp.numerator;
-    } else if (other instanceof Rational){
-        Rational temp;
-        temp = (Rational)other;
+    if(other instanceof Comparable){
+        Comparable temp;
+        temp = (Comparable)other;
         numOther = temp.numerator;
         denOther = temp.denominator;
     } else {

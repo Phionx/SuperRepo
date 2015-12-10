@@ -1,16 +1,17 @@
 /*
 Shantanu Jha
 APCS1 pd5
-HW43--This or That
-2015-12-07
+HW45--Come Together
+2015-12-09
 */
 
 //skeleton file for class Binary
 
-public class Binary {
-
+public class Binary implements Comparable{
+    public int numerator;
+    public int denominator = 1;
     private int _decNum;
-    private String _binNum;
+    public String _binNum;
 
 
     /*=====================================
@@ -20,7 +21,7 @@ public class Binary {
       =====================================*/
     public Binary() { 
 	/****** YOUR IMPLEMENTATION HURRR ******/   
-	_decNum = 0;
+	numerator = _decNum = 0;
 	_binNum = "0";
     }
 
@@ -32,7 +33,7 @@ public class Binary {
       =====================================*/
     public Binary( int n ) {
 	/****** YOUR IMPLEMENTATION HURRR ******/   
-	_decNum = n;
+	numerator = _decNum = n;
 	_binNum = decToBin(n);
     }
 
@@ -44,7 +45,7 @@ public class Binary {
       =====================================*/
     public Binary( String s ) {
 	_binNum = s;
-	_decNum = binToDec(s);
+	numerator = _decNum = binToDec(s);
 	/****** YOUR IMPLEMENTATION HURRR ******/   
     }
 
@@ -163,14 +164,33 @@ public class Binary {
       negative integer if this<input, positive integer otherwise
       =============================================*/
     public int compareTo( Object other ) {
-	/****** YOUR IMPLEMENTATION HURRR ******/   
-	if(!(other instanceof Binary)) throw new ClassCastException("Error the input is not Binary");
-	Binary foo = (Binary)other;
-	int a = foo._decNum;
-	int b = this._decNum;
-	if(a == b) return 0;
-	if(a > b) return -1;
-	return 1;
+	/****** YOUR IMPLEMENTATION HURRR ******/ 
+    double numOther = 0; //numerator of other
+    double denOther = 1; //denominator of other
+    if(other instanceof Binary){
+        Binary temp;
+        temp = (Binary)other;
+        numOther = temp.numerator;
+    } else if(other instanceof Hexadecimal){
+        Hexadecimal temp;
+        temp = (Hexadecimal)other;
+        numOther = temp.numerator;
+    } else if (other instanceof Rational){
+        Rational temp;
+        temp = (Rational)other;
+        numOther = temp.numerator;
+        denOther = temp.denominator;
+    } else {
+        throw new ClassCastException("Input is not valid. Please enter either a Binary, Hexadecimal, or Rational number.");
+    }
+    
+    if(numerator*denOther > numOther*denominator){
+        return 1;
+    } else if (numerator*denOther < numOther*denominator){
+        return -1;
+    } else {
+        return 0;
+    }
     }
 
 

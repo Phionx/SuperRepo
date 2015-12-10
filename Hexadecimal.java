@@ -1,28 +1,30 @@
 /*
-Shantanu Jha, Advay Sriram
+Shantanu Jha
 APCS1 pd5
-HW44--This or That Fourteen Other Things
-2015-12-08
+HW45--Come Together
+2015-12-09
 */
 
-public class Hexadecimal {
-	private int _decNum;
-	private String _hexNum;
+public class Hexadecimal implements Comparable{
+	public int numerator; 
+    public int denominator = 1;
+    private int _decNum;
+	public String _hexNum;
 	private final static String HEXDIGITS = "0123456789ABCDEF";
 	private final static String [] HexDigits = {"0", "1", "2", "3","4","5","6","7","8","9","A","B","C","D","E","F"};
  
 	public Hexadecimal(){
-		_decNum = 0;
+		numerator = _decNum = 0;
 		_hexNum = "0";
 	}
 
 	public Hexadecimal(int n){
-		_decNum = n;
+		numerator = _decNum = n;
 		_hexNum = decToHex(n);
 	}
 	
 	public Hexadecimal(String s){
-		_decNum = hexToDec(s);
+		numerator = _decNum = hexToDec(s);
 		_hexNum = s;
 	}	
 	
@@ -59,6 +61,35 @@ public class Hexadecimal {
 		if(n==0) return "";
 		return decToHexR(n/16) + HexDigits[n%16];
 	}	
+    
+    public int compareTo(Object other){
+        double numOther = 0; //numerator of other
+        double denOther = 1; //denominator of other
+        if(other instanceof Binary){
+            Binary temp;
+            temp = (Binary)other;
+            numOther = temp.numerator;
+        } else if(other instanceof Hexadecimal){
+            Hexadecimal temp;
+            temp = (Hexadecimal)other;
+            numOther = temp.numerator;
+        } else if (other instanceof Rational){
+            Rational temp;
+            temp = (Rational)other;
+            numOther = temp.numerator;
+            denOther = temp.denominator;
+        } else {
+            throw new ClassCastException("Input is not valid. Please enter either a Binary, Hexadecimal, or Rational number.");
+        }
+
+        if(numerator*denOther > numOther*denominator){
+            return 1;
+        } else if (numerator*denOther < numOther*denominator){
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 	
 	public static void main(String [] args){
 		System.out.println(Hexadecimal.hexToDec("2E6"));

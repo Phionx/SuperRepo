@@ -1,8 +1,8 @@
 /*
-Leith Conybeare, Shantanu Jha
+Shantanu Jha
 APCS1 pd5
-HW42--Array of Titanium
-2015-12-06
+HW45--Come Together
+2015-12-09
 */
 
 /*****************************
@@ -20,11 +20,11 @@ HW42--Array of Titanium
  *  remove item (while maintaining "left-justification")
  *****************************/
 
-public class SuperArray implements ListInt {
+public class SuperArray {
  
     //~~~~~INSTANCE VARS~~~~~
     //underlying container, or "core" of this data structure:
-    private int[] _data;
+    private Comparable[] _data;
 
     //position of last meaningful value
     private int _lastPos;
@@ -37,9 +37,9 @@ public class SuperArray implements ListInt {
     //default constructor â€“ initializes 10-item array
     public SuperArray() 
     { 
-	_data = new int[10];
+	_data = new Comparable[10];
 	_lastPos = -1; //flag to indicate no lastpos yet
-	_size = 0;	
+	_size = 10;	
     }
 
 		
@@ -49,7 +49,7 @@ public class SuperArray implements ListInt {
     { 
 	String foo = "[";
 	for( int i = 0; i < _lastPos+1; i++ ) {
-	    foo += _data[i] + ",";
+	    foo += _data[i].numerator + "/" + _data[i].denominator + ",";
 	}
 	//shave off trailing comma
 	if ( foo.length() > 1 )
@@ -62,7 +62,7 @@ public class SuperArray implements ListInt {
     //double capacity of this SuperArray
     private void expand() 
     { 
-	int[] temp = new int[ _data.length * 2 ];
+	Comparable[] temp = new Comparable[ _data.length * 2 ];
 	for( int i = 0; i < _data.length; i++ )
 	    temp[i] = _data[i];
 	_data = temp;
@@ -71,14 +71,14 @@ public class SuperArray implements ListInt {
 
 		
     //accessor -- return value at specified index
-    public int get( int index ) { return _data[index]; }
+    public Comparable get( int index ) { return _data[index]; }
 
 		
     //mutator -- set value at index to newVal, 
     //           return old value at index
-    public int set( int index, int newVal ) 
+    public Comparable set( int index, Comparable newVal ) 
     { 
- 	int temp = _data[index];
+ 	Comparable temp = _data[index];
 	_data[index] = newVal;
 	return temp;
     }
@@ -86,9 +86,9 @@ public class SuperArray implements ListInt {
 
     // ~~~~~~~~~~~~~~ PHASE II ~~~~~~~~~~~~~~
     //adds an item after the last item
-    public void add( int newVal ) {
+    public void add( Comparable newVal ) {
 	if(_lastPos == -1){
-		_data = new int [1];
+		_data = new Comparable [1];
 		_size = 1;
 		_lastPos = 0;
 		_data[0] = newVal;
@@ -103,11 +103,11 @@ public class SuperArray implements ListInt {
 
     //inserts an item at index
     //shifts existing elements to the right
-    public void addAtIndex( int index, int newVal ) {
+    public void addAtIndex( int index, Comparable newVal ) {
 	if(_lastPos+1==_size){
 		expand();
 	}
-	int [] temp = new int[_size];
+	Comparable [] temp = new Comparable[_size];
 	int EndSize = _size - index; //how many meaningful elements are going to be put in the temp array of size _size
 	for(int i = 0; i < EndSize; i++){
 		temp[i] = get(i+index);
@@ -123,7 +123,7 @@ public class SuperArray implements ListInt {
     //removes the item at index
     //shifts elements left to fill in newly-empted slot
     public void remove( int index ) {
-	int [] temp = new int[_size];
+	Comparable [] temp = new Comparable[_size];
         int EndSize = _size - index - 1; //how many meaningful elements are going to be put in the temp array of size _size
         for(int i = 0; i < EndSize; i++){
                 temp[i] = get(i+index + 1);
@@ -139,11 +139,26 @@ public class SuperArray implements ListInt {
     public int size() {
 	return _lastPos + 1;	
     }
-
+    
+    public int linSearch(Comparable n){
+        for(int i = 0; i < _lastPos+1; i++){
+            if(_data[i].compareTo(n) == 0) return i;
+        }
+        return -1;
+    }
+    
+    public boolean isSorted(){
+        for(int i = 1; i< _lastPos + 1; i++){
+            if(_data[i-1].compareTo(_data[i]) != -1) return false;
+        }
+        return true;
+    }
 
     //main method for testing
-    public static void main( String[] args ) 
+    public static void main ( String[] args ) throws NullPointerException
     {
+        
+        /*
 
 	ListInt mayfield = new SuperArray();
 	System.out.println("Printing empty SuperArray mayfield...");
@@ -175,7 +190,7 @@ public class SuperArray implements ListInt {
 	  System.out.println("Printing SuperArray mayfield post-insert...");
 	  System.out.println(mayfield);
 	//*****INSERT ANY ADDITIONAL TEST CALLS HERE*****
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     }//end main
 		

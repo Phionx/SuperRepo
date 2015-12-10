@@ -1,13 +1,12 @@
 /*
-Leith Conybeare, Shantanu Jha
-e^(Pi*i)
+Shantanu Jha
 APCS1 pd5
-HW41-In America, the Driver Sits on the Left
-2015-12-3
+HW45--Come Together
+2015-12-09
 */
 
 public class Rational implements Comparable {
-private double numerator, denominator;
+public double numerator, denominator;
 //Default is rational number 0/1
 public Rational(){
 this(0,1);
@@ -84,23 +83,36 @@ Returns 0 if the two numbers are equal
 Returns a positive integer if the calling number is larger than the parameter
 Returns a negative integer if the calling number is smaller than the parameter
 */
-public int compareTo(Object r){
-if((r instanceof Rational)){
-Rational temp = (Rational)r;
-double temp_a = temp.numerator*this.denominator;
-double temp_b = temp.denominator*this.numerator;
-if(temp_a == temp_b) {
-return 0;
+public int compareTo(Object other){
+    double numOther = 0; //numerator of other
+    double denOther = 1; //denominator of other
+    
+    if(other instanceof Binary){
+        Binary temp;
+        temp = (Binary)other;
+        numOther = temp.numerator;
+    } else if(other instanceof Hexadecimal){
+        Hexadecimal temp;
+        temp = (Hexadecimal)other;
+        numOther = temp.numerator;
+    } else if (other instanceof Rational){
+        Rational temp;
+        temp = (Rational)other;
+        numOther = temp.numerator;
+        denOther = temp.denominator;
+    } else {
+        throw new ClassCastException("Input is not valid. Please enter either a Binary, Hexadecimal, or Rational number.");
+    }
+    
+    if(numerator*denOther > numOther*denominator){
+        return 1;
+    } else if (numerator*denOther < numOther*denominator){
+        return -1;
+    } else {
+        return 0;
+    }
 }
-else if(temp_a > temp_b){
-return -1;
-} 
-else {
-return 1;
-}
-}
-return 2;
-}
+
 public boolean equals(Rational r){
 return (compareTo(r) == 0);
 }
